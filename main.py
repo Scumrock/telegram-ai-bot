@@ -7,8 +7,7 @@ import shutil
 import cv2
 import moviepy.editor as moviepy
 
-
-bot = telebot.TeleBot('')
+bot = telebot.TeleBot('6231106563:AAEc8HkaCZZVmN3eS_hGZzkjeJgOHH2iq2E')
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
 URL = 'C:/Users/79237/Desktop/'
 mass = []
@@ -66,6 +65,7 @@ def get_video(message):
     except Exception as e:
         bot.reply_to(message, e)
 
+
 def send_video(message, file_info, src):
     number = file_info.file_path[file_info.file_path.find('_') + 1:]
     number = '.'.join(number.split('.')[:-1])
@@ -73,11 +73,10 @@ def send_video(message, file_info, src):
     send_src = URL + f'videos/model_videos/file_{number}.mp4'
     bot.reply_to(message, f'Видео обработано!')
     clip = moviepy.VideoFileClip(send_src)
-    kek = URL + f'videos/send/file_{number}.mp4'
-    clip.write_videofile(kek)
-    bot.send_video(message.chat.id, open(kek, 'rb'))
-    remove_video(send_src, src, kek)
-
+    compressed = URL + f'videos/send/file_{number}.mp4'
+    clip.write_videofile(compressed)
+    bot.send_video(message.chat.id, open(compressed, 'rb'))
+    remove_video(send_src, src, compressed)
 
 
 def ai_model_for_video_processing(src, number):
@@ -103,13 +102,10 @@ def ai_model_for_video_processing(src, number):
         frame = plot_boxes(results, frame)
 
         video_output.write(frame)
-        shot +=1
-
-
+        shot += 1
 
     video_output.release()
     cv2.destroyAllWindows()
-
 
 
 def score_frame(frame):
@@ -134,8 +130,11 @@ def plot_boxes(results, frame):
 
     return frame
 
-def remove_video(send_src, src, kek):
+
+def remove_video(send_src, src, compressed):
     os.remove(src)
     os.remove(send_src)
-    os.remove(kek)
+    os.remove(compressed)
 
+
+bot.polling(none_stop=True)
