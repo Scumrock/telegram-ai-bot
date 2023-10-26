@@ -12,7 +12,7 @@ from ultralytics import YOLO
 # import io
 # from PIL import Image
 
-bot = telebot.TeleBot('6231106563:AAEc8HkaCZZVmN3eS_hGZzkjeJgOHH2iq2E')
+bot = telebot.TeleBot('')
 # client = Minio(
 #     "play.min.io",
 #     access_key="Q3AM3UQ867SPQQA43P2F",
